@@ -41,11 +41,8 @@ class TetrisGrid
         {
             for (int j = 0; j < Height; j++)
             {
-                spriteBatch.Draw(emptyCell, position, Color.White);
-                position.Y += 30;
+                spriteBatch.Draw(emptyCell, new Rectangle(i * emptyCell.Width, j * emptyCell.Height, emptyCell.Width, emptyCell.Height), Color.White);
             }
-            position.X += 30;
-            position.Y = 0;
         }
     }
 
