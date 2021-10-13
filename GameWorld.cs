@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Microsoft.Xna.Framework.Input;
+using tetrisnew;
 
 /// <summary>
 /// A class for representing the game world.
@@ -50,6 +52,8 @@ class GameWorld
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
+        if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            grid.currentBlock.Rotate();
     }
 
     public void Update(GameTime gameTime)
