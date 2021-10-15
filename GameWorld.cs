@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Microsoft.Xna.Framework.Input;
-using tetrisnew;
 
 /// <summary>
 /// A class for representing the game world.
@@ -40,6 +39,9 @@ class GameWorld
     /// </summary>
     TetrisGrid grid;
 
+    double timer;
+    const double trigger = 1000;
+
     public GameWorld()
     {
         random = new Random();
@@ -52,12 +54,25 @@ class GameWorld
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
-        if (Keyboard.GetState().IsKeyDown(Keys.Up))
-            grid.currentBlock.Rotate();
+        if (inputHelper.KeyPressed(Keys.D))
+            grid.currentBlock.RotateR();
+        if (inputHelper.KeyPressed(Keys.A))
+            grid.currentBlock.RotateL();
+        if (inputHelper.KeyPressed(Keys.Left))
+            grid.currentBlock.MoveL();
+        if (inputHelper.KeyPressed(Keys.Right))
+            grid.currentBlock.MoveR();
     }
 
     public void Update(GameTime gameTime)
     {
+        timer += gameTime.ElapsedGameTime.TotalMilliseconds;
+
+        if (timer > trigger)
+        {
+            grid.currentBlock.Fall();
+            timer -= trigger;
+        }     
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

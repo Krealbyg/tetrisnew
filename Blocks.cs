@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace tetrisnew
-{
     class Square : Block
     {
         public Square()
@@ -93,5 +91,3 @@ namespace tetrisnew
             bGrid[2, 1] = true;
         }
     }
-
-}

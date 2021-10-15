@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using tetrisnew;
 
 /// <summary>
 /// A class for representing the Tetris playing grid.
