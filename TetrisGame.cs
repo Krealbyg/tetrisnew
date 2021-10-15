@@ -13,7 +13,7 @@ class TetrisGame : Game
     /// A static reference to the ContentManager object, used for loading assets.
     /// </summary>
     public static ContentManager ContentManager { get; private set; }
-    
+    GraphicsDeviceManager graphics;
 
     /// <summary>
     /// A static reference to the width and height of the screen. cummie wummie
@@ -30,7 +30,8 @@ class TetrisGame : Game
     public TetrisGame()
     {        
         // initialize the graphics device
-        GraphicsDeviceManager graphics = new GraphicsDeviceManager(this);
+        graphics = new GraphicsDeviceManager(this);
+        
 
         // store a static reference to the content manager, so other objects can use it
         ContentManager = Content;
@@ -39,14 +40,20 @@ class TetrisGame : Game
         Content.RootDirectory = "Content";
 
         // set the desired window size
-        ScreenSize = new Point(800, 600);
-        graphics.PreferredBackBufferWidth = ScreenSize.X;
-        graphics.PreferredBackBufferHeight = ScreenSize.Y;
-
+        
         // create the input helper object
         inputHelper = new InputHelper();
     }
+    protected override void Initialize()
+    {
+        base.Initialize();
 
+        ScreenSize = new Point(800, 600);
+        graphics.PreferredBackBufferWidth = ScreenSize.X;
+        graphics.PreferredBackBufferHeight = ScreenSize.Y;
+        graphics.ApplyChanges();
+        
+    }
     protected override void LoadContent()
     {
         spriteBatch = new SpriteBatch(GraphicsDevice);

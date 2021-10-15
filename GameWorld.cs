@@ -39,6 +39,8 @@ class GameWorld
     /// </summary>
     TetrisGrid grid;
 
+    Block currentBlock;
+
     double timer;
     const double trigger = 1000;
 
@@ -50,18 +52,20 @@ class GameWorld
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
 
         grid = new TetrisGrid();
+
+        currentBlock = new LL();
     }
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
         if (inputHelper.KeyPressed(Keys.D))
-            grid.currentBlock.RotateR();
+            currentBlock.RotateR();
         if (inputHelper.KeyPressed(Keys.A))
-            grid.currentBlock.RotateL();
+            currentBlock.RotateL();
         if (inputHelper.KeyPressed(Keys.Left))
-            grid.currentBlock.MoveL();
+            currentBlock.MoveL();
         if (inputHelper.KeyPressed(Keys.Right))
-            grid.currentBlock.MoveR();
+            currentBlock.MoveR();
     }
 
     public void Update(GameTime gameTime)
@@ -70,15 +74,22 @@ class GameWorld
 
         if (timer > trigger)
         {
-            grid.currentBlock.Fall();
+            currentBlock.Fall();
             timer -= trigger;
-        }     
+        }
+        if (currentBlock.BCol())
+            currentBlock.position.Y--;
+        if (currentBlock.WCol(0))
+            currentBlock.position.X++;
+        if (currentBlock.WCol(1))
+            currentBlock.position.X--;
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
         spriteBatch.Begin();
         grid.Draw(gameTime, spriteBatch);
+        currentBlock.Draw(gameTime, spriteBatch);
         spriteBatch.End();
     }
 

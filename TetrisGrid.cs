@@ -19,8 +19,6 @@ class TetrisGrid
     /// The number of grid elements in the y-direction.
     public int Height { get { return 20; } }
 
-    public Block currentBlock;
-
     /// <summary>
     /// Creates a new TetrisGrid.
     /// </summary>
@@ -29,7 +27,6 @@ class TetrisGrid
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
         position = Vector2.Zero;
-        currentBlock = new T();
         Clear();
     }
 
@@ -47,7 +44,6 @@ class TetrisGrid
                 spriteBatch.Draw(emptyCell, new Rectangle(i * emptyCell.Width, j * emptyCell.Height, emptyCell.Width, emptyCell.Height), Color.White);
             }
         }
-        currentBlock.Draw(gameTime, spriteBatch);
     }
 
     /// <summary>

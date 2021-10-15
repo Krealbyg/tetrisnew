@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,8 +9,9 @@ public abstract class Block
 {
     protected bool[,] bGrid;
     protected Color color;
-    protected Vector2 position = new Vector2(2, 0);
+    public Vector2 position = new Vector2(2, 0);
     protected Texture2D cell;
+    TetrisGrid grid = new TetrisGrid();
 
     public Block()
     {
@@ -55,16 +57,40 @@ public abstract class Block
         bGrid = temp;
     }
 
+    public bool BCol()
+    {
+        for (int x = 0; x < bGrid.GetLength(0); x++)
+        {
+            for (int y = 0; y < bGrid.GetLength(1); y++)
+            {
+                if (bGrid[x, y] == true && position.Y + y >= grid.Height)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public bool WCol(int z)
+    {
+        for (int x = 0; x < bGrid.GetLength(0); x++)
+        {
+            for (int y = 0; y < bGrid.GetLength(1); y++)
+            {
+                if (bGrid[x, y] == true && position.X + x + 1 > grid.Width && z == 1 || bGrid[x, y] == true && position.X + x < 0 && z == 0)
+                    return true;
+            }
+        }
+        return false;
+    }
+
     public void MoveL()
     {
-        if (position.X > 0)
-            position.X--;
+        position.X--;
     }
 
     public void MoveR()
     {
-        if (position.X < 10 - bGrid.GetLength(0))
-            position.X++;
+        position.X++;
     }
 
     public void Fall()
