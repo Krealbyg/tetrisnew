@@ -70,8 +70,7 @@ class TetrisGrid
     public void opslaan()
     {
         int x = (int)currentblock.position.X, y = (int)currentblock.position.Y;
-        //x /= emptyCell.Width;
-        //y /= emptyCell.Height;
+      
         for (int i = 0; i < currentblock.bGrid.GetLength(0); i++)
         {
             for (int j = 0; j < currentblock.bGrid.GetLength(1); j++)
@@ -121,7 +120,7 @@ class TetrisGrid
             currentblock.position.Y--;
             opslaan();
         }
-        //HandleInput(gameTime, inputHelper);
+     
         currentblock.Update(gameTime);
     }
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
@@ -134,12 +133,13 @@ class TetrisGrid
     
         if (inputHelper.KeyPressed(Keys.A))
             currentblock.bGrid = currentblock.RotateL(currentblock.bGrid);
-             
+          
          if (inputHelper.KeyPressed(Keys.Left))
              currentblock.MoveL();
          if (inputHelper.KeyPressed(Keys.Right))
              currentblock.MoveR();
-        
+        if (inputHelper.KeyDown(Keys.Down))
+            currentblock.Fall();
     }
 }
 

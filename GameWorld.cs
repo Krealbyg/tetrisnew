@@ -57,15 +57,7 @@ class GameWorld
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
-       /* if (inputHelper.KeyPressed(Keys.D))
-            currentBlock.RotateR();
-        if (inputHelper.KeyPressed(Keys.A))
-            currentBlock.RotateL();
-        if (inputHelper.KeyPressed(Keys.Left))
-            currentBlock.MoveL();
-        if (inputHelper.KeyPressed(Keys.Right))
-            currentBlock.MoveR();
-       */
+   
     }
 
     public void Update(GameTime gameTime, InputHelper inputHelper)
