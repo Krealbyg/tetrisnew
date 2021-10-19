@@ -39,10 +39,9 @@ class GameWorld
     /// </summary>
     TetrisGrid grid;
 
-    Block currentBlock;
 
-    double timer;
-    const double trigger = 1000;
+    //double timer;
+   // const double trigger = 1000;
 
     public GameWorld()
     {
@@ -53,12 +52,12 @@ class GameWorld
 
         grid = new TetrisGrid();
 
-        currentBlock = new LL();
+       
     }
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
-        if (inputHelper.KeyPressed(Keys.D))
+       /* if (inputHelper.KeyPressed(Keys.D))
             currentBlock.RotateR();
         if (inputHelper.KeyPressed(Keys.A))
             currentBlock.RotateL();
@@ -66,30 +65,24 @@ class GameWorld
             currentBlock.MoveL();
         if (inputHelper.KeyPressed(Keys.Right))
             currentBlock.MoveR();
+       */
     }
 
-    public void Update(GameTime gameTime)
+    public void Update(GameTime gameTime, InputHelper inputHelper)
     {
-        timer += gameTime.ElapsedGameTime.TotalMilliseconds;
+      
+        grid.Update(gameTime, inputHelper);
+        grid.HandleInput(gameTime, inputHelper);
+        grid.Random();
 
-        if (timer > trigger)
-        {
-            currentBlock.Fall();
-            timer -= trigger;
-        }
-        if (currentBlock.BCol())
-            currentBlock.position.Y--;
-        if (currentBlock.WCol(0))
-            currentBlock.position.X++;
-        if (currentBlock.WCol(1))
-            currentBlock.position.X--;
+        
+        
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
         spriteBatch.Begin();
         grid.Draw(gameTime, spriteBatch);
-        currentBlock.Draw(gameTime, spriteBatch);
         spriteBatch.End();
     }
 

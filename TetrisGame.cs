@@ -67,12 +67,12 @@ class TetrisGame : Game
     {
         inputHelper.Update(gameTime);
         gameWorld.HandleInput(gameTime, inputHelper);
-        gameWorld.Update(gameTime);
+        gameWorld.Update(gameTime, inputHelper);
     }
 
     protected override void Draw(GameTime gameTime)
     {
-       //GraphicsDevice.Clear(Color.White);
+       GraphicsDevice.Clear(Color.White);
        gameWorld.Draw(gameTime, spriteBatch);
     }
 }
