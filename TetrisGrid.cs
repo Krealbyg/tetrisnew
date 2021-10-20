@@ -115,9 +115,15 @@ class TetrisGrid
     }
     public void Update(GameTime gameTime, InputHelper inputHelper)
     {
-        if (currentBlock.BCol() || GCol())
+        if (currentBlock.BCol())
         {
             currentBlock.position.Y--;
+            Save();
+        }
+        if (GCol())
+        {
+            while (GCol())
+                currentBlock.position.Y--;
             Save();
         }
      
