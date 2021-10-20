@@ -184,26 +184,51 @@ class TetrisGrid
             for (int j = 0; j < Width; j++)
             {
                 grid[j, i] = Color.White;
+                big[j, i] = false;
             }
         }
 
-       /* switch (x.Count)
+       switch (x.Count)
         {
             case 1:
-                score += 40;
+                //score += 40;
+                Fall(1);
                 break;
             case 2:
-                score += 100;
+                //score += 100;
+                Fall(2);
                 break;
             case 3:
-                score += 300;
+                //score += 300;
+                Fall(3);
                 break;
             case 4:
-                score += 1200;
+                //score += 1200;
+                Fall(4);
                 break;
             default:
                 break;
-        }*/
+        }
+    }
+
+    public void Fall(int a)
+    {
+        for (int b = 0; b < a; b++) 
+        {
+            for (int x = Width - 1; x >= 0; x--)
+            {
+                for (int y = Height - 2; y > 0; y--)
+                {
+                    if (big[x, y] == true && big[x, y + 1] == false)
+                    {
+                        big[x, y] = false;
+                        big[x, y + 1] = true;
+                        grid[x, y + 1] = grid[x, y];
+                        grid[x, y] = Color.White;
+                    }
+                }
+            }
+        }
     }
 }
 

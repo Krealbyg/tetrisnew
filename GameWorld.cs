@@ -63,7 +63,7 @@ class GameWorld
         grid.HandleInput(gameTime, inputHelper);
         grid.Random();
         grid.Clear(grid.Check());
-        
+        //grid.Fall(grid.Check());
         
     }
 
