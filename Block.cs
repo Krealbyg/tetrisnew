@@ -45,6 +45,16 @@ abstract class Block
                 temp[x, y] = rotR[y, rotR.GetLength(1) - 1 - x];
             }
         }
+        for (int x = 0; x < temp.GetLength(0); x++)
+        {
+            for (int y = 0; y < temp.GetLength(1); y++)
+            {
+                while (temp[x, y] == true && position.X + x + 1 > (10))
+                    position.X--;
+                while (temp[x, y] == true && position.X + x - 0 < 0)
+                    position.X++;
+            }
+        }
         return temp;
     }
     public bool[,] RotateL(bool[,] RotL)
@@ -56,6 +66,16 @@ abstract class Block
             for (int y = 0; y < RotL.GetLength(1); y++)
             {
                 temp[x, y] = RotL[RotL.GetLength(0) - 1 - y, x];
+            }
+        }
+        for (int x = 0; x < temp.GetLength(0); x++)
+        {
+            for (int y = 0; y < temp.GetLength(1); y++)
+            {
+                while (temp[x, y] == true && position.X + x + 1 > (10))
+                    position.X--;
+                while (temp[x, y] == true && position.X + x - 0 < 0)
+                    position.X++;
             }
         }
         return temp;
@@ -80,7 +100,7 @@ abstract class Block
         {
             for (int y = 0; y < bGrid.GetLength(1); y++)
             {
-                if (bGrid[x, y] == true && position.X + x + 1 > (10) && z == 1 || bGrid[x, y] == true && position.X + x < 0 && z == 0)
+                if (bGrid[x, y] == true && position.X + x + 2 > (10) && z == 1 || bGrid[x, y] == true && position.X + x - 1 < 0 && z == 0)
                     return true;
             }
         }
@@ -89,12 +109,14 @@ abstract class Block
 
     public void MoveL()
     {
-        position.X--;
+        if (!WCol(0))
+            position.X--;
     }
 
     public void MoveR()
     {
-        position.X++;
+        if (!WCol(1))
+            position.X++;
     }
 
     public void Fall()
@@ -107,10 +129,5 @@ abstract class Block
         {
             position.Y++;
         }  
-      
-        if (WCol(0))
-            position.X++;
-        if (WCol(1))
-            position.X--;
     }
 }

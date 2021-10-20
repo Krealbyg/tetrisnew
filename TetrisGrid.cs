@@ -139,7 +139,7 @@ class TetrisGrid
              currentBlock.MoveL();
         if (inputHelper.KeyPressed(Keys.Right))
              currentBlock.MoveR();
-        if (inputHelper.KeyDown(Keys.Down))
+        if (inputHelper.KeyPressed(Keys.Down))
             currentBlock.Fall();
     }
 
