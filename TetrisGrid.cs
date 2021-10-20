@@ -64,7 +64,7 @@ class TetrisGrid
     /// </summary>
     public int Random()
     {
-        rBlock = r.Next(0, 6);
+        rBlock = r.Next(0, 7);
         return rBlock;
         
     }
@@ -117,25 +117,25 @@ class TetrisGrid
     public void Update(GameTime gameTime, InputHelper inputHelper)
     {
         if (currentBlock.BCol())
-        {
-            currentBlock.position.Y--;
             Save();
-        }
-        if (GCol())
-        {
-            while (GCol())
-                currentBlock.position.Y--;
-            Save();
-        }
+        GCol();
      
         currentBlock.Update(gameTime);
     }
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
         if (inputHelper.KeyPressed(Keys.D))
+        {
+            currentBlock.PrevRot(currentBlock.bGrid);
             currentBlock.bGrid = currentBlock.RotateR(currentBlock.bGrid);
+            RCol();
+        }
         if (inputHelper.KeyPressed(Keys.A))
+        {
+            currentBlock.PrevRot(currentBlock.bGrid);
             currentBlock.bGrid = currentBlock.RotateL(currentBlock.bGrid);
+            RCol();
+        }
         if (inputHelper.KeyPressed(Keys.Left))
              currentBlock.MoveL();
         if (inputHelper.KeyPressed(Keys.Right))
@@ -144,88 +144,67 @@ class TetrisGrid
             currentBlock.Fall();
     }
 
-    public bool GCol()
+    public void GCol()
     {
         for (int x = 0; x < currentBlock.bGrid.GetLength(0); x++)
         {
             for (int y = 0; y < currentBlock.bGrid.GetLength(1); y++)
             {
                 if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x, (int)currentBlock.position.Y + y] == true)
-                    return true;
+                    currentBlock.position = currentBlock.prevPos;
+                if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x, (int)currentBlock.position.Y + y + 1] == true)
+                {  
+                    Save();
+                    Check();
+                }         
             }
         }
-        return false;
     }
-    public List<int> Check()
+
+    public void RCol()
     {
-        List<int> row = new List<int>();
-        int x = 0;
-        for (int i = 0; i < Height; i++)
+        for (int x = 0; x < currentBlock.bGrid.GetLength(0); x++)
+        {
+            for (int y = 0; y < currentBlock.bGrid.GetLength(1); y++)
+            {
+                if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x, (int)currentBlock.position.Y + y] == true)
+                    currentBlock.bGrid = currentBlock.prevGrid;
+            }
+        }
+    }
+
+    public void Check()
+    {
+        for (int i = Height - 1; i >= 0; i--)
+        {
+            bool full = true;
+            for (int j = 0; j < Width; j++)
+            {
+                if (!big[j, i])
+                    full = false;
+            }
+            if (full)
+            {
+                Clear(i);
+                i++;
+            }
+        }
+    }
+    public void Clear(int x)
+    {
+        for (int i = x; i >= 0; i--)
         {
             for (int j = 0; j < Width; j++)
             {
-                if (grid[j, i] != Color.White)
+                if (i == 0)
                 {
-                    x++;
+                    grid[j, i] = Color.White;
+                    big[j, i] = false;
                 }
-            }
-            if (x == 10)
-            {
-                row.Add(i);
-            }
-            x = 0;
-        }
-        return row;
-    }
-    public void Clear(List<int> x)
-    {
-        foreach (int i in x)
-        {
-            for (int j = 0; j < Width; j++)
-            {
-                grid[j, i] = Color.White;
-                big[j, i] = false;
-            }
-        }
-
-       switch (x.Count)
-        {
-            case 1:
-                //score += 40;
-                Fall(1);
-                break;
-            case 2:
-                //score += 100;
-                Fall(2);
-                break;
-            case 3:
-                //score += 300;
-                Fall(3);
-                break;
-            case 4:
-                //score += 1200;
-                Fall(4);
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void Fall(int a)
-    {
-        for (int b = 0; b < a; b++) 
-        {
-            for (int x = Width - 1; x >= 0; x--)
-            {
-                for (int y = Height - 2; y > 0; y--)
+                else
                 {
-                    if (big[x, y] == true && big[x, y + 1] == false)
-                    {
-                        big[x, y] = false;
-                        big[x, y + 1] = true;
-                        grid[x, y + 1] = grid[x, y];
-                        grid[x, y] = Color.White;
-                    }
+                    grid[j, i] = grid[j, i - 1];
+                    big[j, i] = big[j, i - 1];
                 }
             }
         }
