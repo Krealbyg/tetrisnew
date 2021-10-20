@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 /// <summary>
 /// A class for representing the Tetris playing grid.
@@ -154,6 +155,55 @@ class TetrisGrid
             }
         }
         return false;
+    }
+    public List<int> Check()
+    {
+        List<int> row = new List<int>();
+        int x = 0;
+        for (int i = 0; i < Height; i++)
+        {
+            for (int j = 0; j < Width; j++)
+            {
+                if (grid[j, i] != Color.White)
+                {
+                    x++;
+                }
+            }
+            if (x == 10)
+            {
+                row.Add(i);
+            }
+            x = 0;
+        }
+        return row;
+    }
+    public void Clear(List<int> x)
+    {
+        foreach (int i in x)
+        {
+            for (int j = 0; j < Width; j++)
+            {
+                grid[j, i] = Color.White;
+            }
+        }
+
+       /* switch (x.Count)
+        {
+            case 1:
+                score += 40;
+                break;
+            case 2:
+                score += 100;
+                break;
+            case 3:
+                score += 300;
+                break;
+            case 4:
+                score += 1200;
+                break;
+            default:
+                break;
+        }*/
     }
 }
 
