@@ -15,7 +15,6 @@ abstract class Block
     public Color color;
     public Vector2 position = new Vector2(2, 0);
     protected Texture2D cell;
-    //TetrisGrid grid = new TetrisGrid();
     
     public Block()
     {
@@ -104,12 +103,10 @@ abstract class Block
     }
     public void Update(GameTime gameTime)
     {
-       // timer += gameTime.ElapsedGameTime.TotalMilliseconds;
         if (gameTime.TotalGameTime.Ticks % 60 == 1)
         {
-            position.Y ++;
-        }
-        
+            position.Y++;
+        }  
       
         if (WCol(0))
             position.X++;

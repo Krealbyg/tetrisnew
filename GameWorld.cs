@@ -39,10 +39,6 @@ class GameWorld
     /// </summary>
     TetrisGrid grid;
 
-
-    //double timer;
-   // const double trigger = 1000;
-
     public GameWorld()
     {
         random = new Random();

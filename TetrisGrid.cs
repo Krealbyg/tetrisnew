@@ -13,7 +13,7 @@ class TetrisGrid
 
     /// The position at which this TetrisGrid should be drawn.
     Vector2 position;
-    public Block currentblock;
+    public Block currentBlock;
     /// The number of grid elements in the x-direction.
     public int Width { get { return 10; } }
 
@@ -22,7 +22,7 @@ class TetrisGrid
     private Color[,] grid;
     private bool[,] big;
     public Random r = new Random();
-    public int rblok;
+    public int rBlock;
     /// <summary>
     /// Creates a new TetrisGrid.
     /// </summary>
@@ -30,7 +30,7 @@ class TetrisGrid
     public TetrisGrid()
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
-        currentblock = new Long();
+        currentBlock = new Long();
         position = Vector2.Zero;
         grid = new Color[Width, Height];
         big = new bool[Width, Height];
@@ -54,7 +54,7 @@ class TetrisGrid
             }
         }
         
-        currentblock.Draw(gameTime, spriteBatch);
+        currentBlock.Draw(gameTime, spriteBatch);
         
     }
 
@@ -63,41 +63,41 @@ class TetrisGrid
     /// </summary>
     public int Random()
     {
-        rblok = r.Next(0, 6);
-        return rblok;
+        rBlock = r.Next(0, 6);
+        return rBlock;
         
     }
-    public void opslaan()
+    public void Save()
     {
-        int x = (int)currentblock.position.X, y = (int)currentblock.position.Y;
+        int x = (int)currentBlock.position.X, y = (int)currentBlock.position.Y;
       
-        for (int i = 0; i < currentblock.bGrid.GetLength(0); i++)
+        for (int i = 0; i < currentBlock.bGrid.GetLength(0); i++)
         {
-            for (int j = 0; j < currentblock.bGrid.GetLength(1); j++)
+            for (int j = 0; j < currentBlock.bGrid.GetLength(1); j++)
             {
-                if (currentblock.bGrid[i, j])
+                if (currentBlock.bGrid[i, j])
                 {
                     big[x + i, j + y] = true;
-                    grid[x + i, j + y] = currentblock.color;
+                    grid[x + i, j + y] = currentBlock.color;
                 }
             }
         }
         
-        switch (rblok)
+        switch (rBlock)
         {
-            case 0: currentblock = new SnakeR();
+            case 0: currentBlock = new SnakeR();
                  break;
-            case 1:currentblock = new Long();
+            case 1:currentBlock = new Long();
                 break;
-            case 2: currentblock = new Square();
+            case 2: currentBlock = new Square();
                 break;
-            case 3: currentblock = new SnakeL();
+            case 3: currentBlock = new SnakeL();
                 break;
-            case 4: currentblock = new LL();
+            case 4: currentBlock = new LL();
                 break;
-            case 5: currentblock = new LR();
+            case 5: currentBlock = new LR();
                 break;
-            case 6: currentblock = new T();
+            case 6: currentBlock = new T();
                 break;
         
         }
@@ -115,31 +115,39 @@ class TetrisGrid
     }
     public void Update(GameTime gameTime, InputHelper inputHelper)
     {
-        if (currentblock.BCol())
+        if (currentBlock.BCol() || GCol())
         {
-            currentblock.position.Y--;
-            opslaan();
+            currentBlock.position.Y--;
+            Save();
         }
      
-        currentblock.Update(gameTime);
+        currentBlock.Update(gameTime);
     }
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
-        if (inputHelper.KeyPressed(Keys.D)) 
-            currentblock.bGrid = currentblock.RotateR(currentblock.bGrid);
-
-        
-
-    
+        if (inputHelper.KeyPressed(Keys.D))
+            currentBlock.bGrid = currentBlock.RotateR(currentBlock.bGrid);
         if (inputHelper.KeyPressed(Keys.A))
-            currentblock.bGrid = currentblock.RotateL(currentblock.bGrid);
-          
-         if (inputHelper.KeyPressed(Keys.Left))
-             currentblock.MoveL();
-         if (inputHelper.KeyPressed(Keys.Right))
-             currentblock.MoveR();
+            currentBlock.bGrid = currentBlock.RotateL(currentBlock.bGrid);
+        if (inputHelper.KeyPressed(Keys.Left))
+             currentBlock.MoveL();
+        if (inputHelper.KeyPressed(Keys.Right))
+             currentBlock.MoveR();
         if (inputHelper.KeyDown(Keys.Down))
-            currentblock.Fall();
+            currentBlock.Fall();
+    }
+
+    public bool GCol()
+    {
+        for (int x = 0; x < currentBlock.bGrid.GetLength(0); x++)
+        {
+            for (int y = 0; y < currentBlock.bGrid.GetLength(1); y++)
+            {
+                if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x, (int)currentBlock.position.Y + y] == true)
+                    return true;
+            }
+        }
+        return false;
     }
 }
 
