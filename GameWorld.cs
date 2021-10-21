@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 /// <summary>
 /// A class for representing the game world.
@@ -39,13 +40,16 @@ class GameWorld
     /// The main grid of the game.
     /// </summary>
     TetrisGrid grid;
-
+    public Song theme;
+    public bool songplaying;
     public GameWorld()
     {
         random = new Random();
         gameState = GameState.Begin;
 
+        
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
+        theme = TetrisGame.ContentManager.Load<Song>("theme");
 
         grid = new TetrisGrid();
 
@@ -82,7 +86,14 @@ class GameWorld
         if (gameState == GameState.Playing)
             grid.Draw(gameTime, spriteBatch);
         if (gameState == GameState.Begin)
+        {
+          if (songplaying == false)
+            {
+                MediaPlayer.Play(theme);
+                songplaying = true;
+            }
             spriteBatch.DrawString(font, "Press enter to begin", new Vector2(200, 200), Color.Black);
+        }
         if (gameState == GameState.GameOver)
             spriteBatch.DrawString(font, "Game Over. Press enter to restart", new Vector2(200, 200), Color.Black);
         spriteBatch.End();

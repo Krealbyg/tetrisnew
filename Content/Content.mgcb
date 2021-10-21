@@ -37,12 +37,6 @@
 /processorParam:Quality=Best
 /build:Grass.wav
 
-#begin Grass.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Grass.wav
-
 #begin GrassFinal.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -61,4 +55,10 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:SpelFont.spritefont
+
+#begin theme.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:theme.mp3
 

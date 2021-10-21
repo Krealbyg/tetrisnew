@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
-
+using Microsoft.Xna.Framework.Media;
 /// <summary>
 /// A class for representing the Tetris playing grid.
 /// </summary>
@@ -32,6 +32,7 @@ class TetrisGrid
     SoundEffect levelup;
     SoundEffect place;
     public bool gameOver;
+   
     /// <summary>
     /// Creates a new TetrisGrid.
     /// </summary>
@@ -43,6 +44,7 @@ class TetrisGrid
         place = TetrisGame.ContentManager.Load<SoundEffect>("GrassFinal");
         levelup = TetrisGame.ContentManager.Load<SoundEffect>("level");
         boom = TetrisGame.ContentManager.Load<SoundEffect>("boomfinal");
+      
 
         currentBlock = new Long();
         position = Vector2.Zero;
@@ -127,7 +129,7 @@ class TetrisGrid
             Save();
         GCol();
 
-        if (score == 2000 * level)
+        if (score == 1500 * level)
         {
             levelup.Play(volume: 0.2f, pitch: 0.0f, pan: 0.0f);
             level++;
