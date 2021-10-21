@@ -15,7 +15,8 @@ class GameWorld
     enum GameState
     {
         Playing,
-        GameOver
+        GameOver,
+        Begin
     }
 
     /// <summary>
@@ -42,7 +43,7 @@ class GameWorld
     public GameWorld()
     {
         random = new Random();
-        gameState = GameState.Playing;
+        gameState = GameState.Begin;
 
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
 
@@ -53,29 +54,33 @@ class GameWorld
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
-   
+        if (inputHelper.KeyPressed(Keys.Enter))
+            GameStart();
     }
 
     public void Update(GameTime gameTime, InputHelper inputHelper)
     {
-      
-        grid.Update(gameTime, inputHelper);
-        grid.HandleInput(gameTime, inputHelper);
-        grid.Random();
-        grid.Check();
-        
-        
+        if (gameState == GameState.Playing)
+        {
+            grid.Update(gameTime, inputHelper);
+            grid.HandleInput(gameTime, inputHelper);
+            grid.Check();
+        }
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
         spriteBatch.Begin();
-        grid.Draw(gameTime, spriteBatch);
+        if (gameState == GameState.Playing)
+            grid.Draw(gameTime, spriteBatch);
         spriteBatch.End();
     }
 
-    public void Reset()
+    public void GameStart()
     {
+        gameState = GameState.Playing;
+        grid.NewBlock();
+        grid.NewBlock();
     }
 
 }

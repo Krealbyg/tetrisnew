@@ -16,6 +16,8 @@ abstract class Block
     public Vector2 position = new Vector2(2, 0);
     public Vector2 prevPos;
     protected Texture2D cell;
+    public int speedMod;
+    public bool dropping;
     
     public Block()
     {
@@ -106,6 +108,7 @@ abstract class Block
             {
                 if (bGrid[x, y] == true && position.Y + y == 19)
                 {
+                    dropping = false;
                     return true;
                 }
             }
@@ -146,12 +149,21 @@ abstract class Block
         if (BCol() == false)
             position.Y++;
     }
+
+    public void Drop()
+    {
+        if (dropping)
+            Fall();
+    }
+
     public void Update(GameTime gameTime)
     {
-        if (gameTime.TotalGameTime.Ticks % 60 == 1 && BCol() == false)
+        if (gameTime.TotalGameTime.Ticks % (60 / speedMod) == 1 && BCol() == false)
         {
             prevPos = position;
             position.Y++;
-        }  
+        }
+
+        Drop();
     }
 }
