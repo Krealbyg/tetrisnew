@@ -25,6 +25,36 @@
 /processorParam:TextureFormat=Color
 /build:block.png
 
+#begin boomfinal.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:boomfinal.wav
+
+#begin Grass.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Grass.wav
+
+#begin Grass.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Grass.wav
+
+#begin GrassFinal.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:GrassFinal.wav
+
+#begin Level.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Level.wav
+
 #begin SpelFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

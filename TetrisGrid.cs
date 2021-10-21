@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
 
 /// <summary>
 /// A class for representing the Tetris playing grid.
@@ -27,6 +28,9 @@ class TetrisGrid
     public Block currentBlock;
     Block previewBlock;
     public int level;
+    SoundEffect boom;
+    SoundEffect levelup;
+    SoundEffect place;
     /// <summary>
     /// Creates a new TetrisGrid.
     /// </summary>
@@ -35,6 +39,10 @@ class TetrisGrid
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
+        place = TetrisGame.ContentManager.Load<SoundEffect>("GrassFinal");
+        levelup = TetrisGame.ContentManager.Load<SoundEffect>("level");
+        boom = TetrisGame.ContentManager.Load<SoundEffect>("boomfinal");
+
         currentBlock = new Long();
         position = Vector2.Zero;
         grid = new Color[Width, Height];
@@ -81,6 +89,8 @@ class TetrisGrid
     /// </summary>
     public void Save()
     {
+        place.Play(volume: 0.5f, pitch: 0.0f, pan: 1.0f);
+        
         int x = (int)currentBlock.position.X, y = (int)currentBlock.position.Y;
 
         for (int i = 0; i < currentBlock.bGrid.GetLength(0); i++)
@@ -99,6 +109,7 @@ class TetrisGrid
 
     public void Clear()
     {
+       
         for (int i = 0; i < Width; i++)
         {
             for (int j = 0; j < Height; j++)
@@ -106,7 +117,7 @@ class TetrisGrid
                 grid[i, j] = Color.White;
             }
         }
-
+        
     }
     public void Update(GameTime gameTime, InputHelper inputHelper)
     {
@@ -115,7 +126,10 @@ class TetrisGrid
         GCol();
 
         if (score == 2000 * level)
+        {
+            levelup.Play(volume: 0.2f, pitch: 0.0f, pan: 0.0f);
             level++;
+        }
         currentBlock.speedMod = level;
 
         currentBlock.Update(gameTime);
@@ -188,6 +202,7 @@ class TetrisGrid
             }
             if (full)
             {
+                
                 Clear(i);
                 i++;
                 count++;
@@ -198,6 +213,7 @@ class TetrisGrid
 
     public void Clear(int x)
     {
+        boom.Play(volume: 1.0f, pitch: 0.0f, pan: 0.0f);
         for (int i = x; i >= 0; i--)
         {
             for (int j = 0; j < Width; j++)
@@ -214,6 +230,7 @@ class TetrisGrid
                 }
             }
         }
+        
     }
 
     public void ScoreIncrease(int x)
