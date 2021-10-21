@@ -27,6 +27,7 @@ class TetrisGrid
     public Block currentBlock;
     Block previewBlock;
     public int level;
+    public bool gameOver;
     /// <summary>
     /// Creates a new TetrisGrid.
     /// </summary>
@@ -40,6 +41,7 @@ class TetrisGrid
         grid = new Color[Width, Height];
         big = new bool[Width, Height];
         level = 1;
+        gameOver = false;
 
         Clear();
 
@@ -152,7 +154,10 @@ class TetrisGrid
             for (int y = 0; y < currentBlock.bGrid.GetLength(1); y++)
             {
                 if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x, (int)currentBlock.position.Y + y] == true)
-                    currentBlock.position = currentBlock.prevPos;
+                    if (currentBlock.position == currentBlock.prevPos)
+                        gameOver = true;
+                    else
+                        currentBlock.position = currentBlock.prevPos;
                 if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x, (int)currentBlock.position.Y + y + 1] == true)
                 {
                     currentBlock.dropping = false;
@@ -263,6 +268,21 @@ class TetrisGrid
                 previewBlock = new T();
                 break;
         }
-    }   
+    }
+    
+    public void Reset()
+    {
+        for (int i = 0; i < Width; i++)
+        {
+            for (int j = 0; j < Height; j++)
+            {
+                grid[i, j] = Color.White;
+                big[i, j] = false;
+            }
+        }
+        score = 0;
+        level = 1;
+        gameOver = false;
+    }
 }
 

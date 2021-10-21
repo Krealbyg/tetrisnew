@@ -55,7 +55,13 @@ class GameWorld
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
         if (inputHelper.KeyPressed(Keys.Enter))
-            GameStart();
+            if (gameState == GameState.Begin)
+                GameStart();
+            else if (gameState == GameState.GameOver)
+            {
+                grid.Reset();
+                GameStart();
+            }
     }
 
     public void Update(GameTime gameTime, InputHelper inputHelper)
@@ -66,6 +72,8 @@ class GameWorld
             grid.HandleInput(gameTime, inputHelper);
             grid.Check();
         }
+        if (grid.gameOver)
+            gameState = GameState.GameOver;
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -73,6 +81,10 @@ class GameWorld
         spriteBatch.Begin();
         if (gameState == GameState.Playing)
             grid.Draw(gameTime, spriteBatch);
+        if (gameState == GameState.Begin)
+            spriteBatch.DrawString(font, "Press enter to begin", new Vector2(200, 200), Color.Black);
+        if (gameState == GameState.GameOver)
+            spriteBatch.DrawString(font, "Game Over. Press enter to restart", new Vector2(200, 200), Color.Black);
         spriteBatch.End();
     }
 
@@ -82,5 +94,4 @@ class GameWorld
         grid.NewBlock();
         grid.NewBlock();
     }
-
 }
