@@ -40,6 +40,8 @@ class GameWorld
     /// The main grid of the game.
     /// </summary>
     TetrisGrid grid;
+
+    //music stuff
     public Song theme;
     public bool songplaying;
     public GameWorld()
@@ -51,17 +53,15 @@ class GameWorld
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
         theme = TetrisGame.ContentManager.Load<Song>("theme");
 
-        grid = new TetrisGrid();
-
-       
+        grid = new TetrisGrid();    
     }
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
         if (inputHelper.KeyPressed(Keys.Enter))
-            if (gameState == GameState.Begin)
+            if (gameState == GameState.Begin)//if playing for first time
                 GameStart();
-            else if (gameState == GameState.GameOver)
+            else if (gameState == GameState.GameOver)//if replaying
             {
                 grid.Reset();
                 GameStart();
@@ -70,11 +70,11 @@ class GameWorld
 
     public void Update(GameTime gameTime, InputHelper inputHelper)
     {
-        if (gameState == GameState.Playing)
+        if (gameState == GameState.Playing)//grid only updates while game is active
         {
             grid.Update(gameTime, inputHelper);
             grid.HandleInput(gameTime, inputHelper);
-            grid.Check();
+            grid.CheckRows();
         }
         if (grid.gameOver)
             gameState = GameState.GameOver;
@@ -87,9 +87,10 @@ class GameWorld
             grid.Draw(gameTime, spriteBatch);
         if (gameState == GameState.Begin)
         {
-          if (songplaying == false)
+          if (songplaying == false)//makes it so song doesn't keep starting over and over while in GameState.Begin
             {
                 MediaPlayer.Play(theme);
+                MediaPlayer.Volume = 0.25f;
                 songplaying = true;
             }
             spriteBatch.DrawString(font, "Press enter to begin", new Vector2(200, 200), Color.Black);
@@ -99,7 +100,7 @@ class GameWorld
         spriteBatch.End();
     }
 
-    public void GameStart()
+    public void GameStart()//starts game. NewBlock is called twice to first create a currentBlock and then the preview block
     {
         gameState = GameState.Playing;
         grid.NewBlock();

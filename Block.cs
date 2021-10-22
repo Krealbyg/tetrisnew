@@ -1,29 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
+/// <summary>
+/// Class to create the blocks
+/// </summary>
 abstract class Block
 {
+    //Grids
     public bool[,] bGrid;
     public bool[,] prevGrid;
     
-
+    //Properties of the blocks
     public Color color;
     public Vector2 position = new Vector2(2, 0);
     public Vector2 prevPos;
     protected Texture2D cell;
+
+    //miscellaneous variables
     public int speedMod;
     public bool dropping;
     
     public Block()
     {
-        cell = TetrisGame.ContentManager.Load<Texture2D>("ass without the G");
+        cell = TetrisGame.ContentManager.Load<Texture2D>("ass_without_the_G");
         prevPos = position;
-  
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -38,30 +38,33 @@ abstract class Block
         }
     }
 
+    #region Rotation
+    //region where all methods having to do with rotation reside
     public bool [,] RotateR(bool[,] rotR)
     {
-        bool[,] temp = new bool[rotR.GetLength(0), rotR.GetLength(1)];
+        bool[,] temp = new bool[rotR.GetLength(0), rotR.GetLength(1)];//creates temp grid equal in size to main block grid
 
         for (int x = 0; x < rotR.GetLength(0); x++)
         {
             for (int y = 0; y < rotR.GetLength(1); y++)
             {
-                temp[x, y] = rotR[y, rotR.GetLength(1) - 1 - x];
+                temp[x, y] = rotR[y, rotR.GetLength(1) - 1 - x];//turns temp grid into clockwise rotation of block grid
             }
         }
         for (int x = 0; x < temp.GetLength(0); x++)
         {
             for (int y = 0; y < temp.GetLength(1); y++)
             {
+                //moves block away from wall if rotation would exit grid
                 while (temp[x, y] == true && position.X + x + 1 > (10))
                     position.X--;
                 while (temp[x, y] == true && position.X + x - 0 < 0)
                     position.X++;
             }
         }
-        return temp;
+        return temp;//turns current grid into this temp grid
     }
-    public bool[,] RotateL(bool[,] rotL)
+    public bool[,] RotateL(bool[,] rotL)//same as RotateR, except counter-clockwise
     {
         bool[,] temp = new bool[rotL.GetLength(0), rotL.GetLength(1)];
 
@@ -85,7 +88,7 @@ abstract class Block
         return temp;
     }
 
-    public void PrevRot(bool[,] rot)
+    public void PrevRot(bool[,] rot)//saves current rotation into another back-up grid. This is used in another class
     {
         prevGrid = new bool[rot.GetLength(0), rot.GetLength(1)];
         for (int x = 0; x < rot.GetLength(0); x++)
@@ -99,8 +102,11 @@ abstract class Block
             }
         }
     }
+    #endregion
 
-    public bool BCol()
+    #region Collision
+    //region where methods having to do with collision reside
+    public bool BottomCol()//this checks if block has reached bottom of grid
     {
         for (int x = 0; x < bGrid.GetLength(0); x++)
         {
@@ -116,7 +122,7 @@ abstract class Block
         return false;
     }
 
-    public bool WCol(int z)
+    public bool WallCol(int z)//checks if block has reached one of the walls
     {
         for (int x = 0; x < bGrid.GetLength(0); x++)
         {
@@ -128,42 +134,49 @@ abstract class Block
         }
         return false;
     }
+    #endregion
 
+    #region Movement
+    //region where methods having to do with movement reside
+
+    //Movement sideways
     public void MoveL()
     {
-        prevPos = position;
-        if (!WCol(0))
+        prevPos = position;//saves position in a back-up. Used in another class
+        if (!WallCol(0))//don't move in at wall
             position.X--;
     }
 
-    public void MoveR()
+    public void MoveR()//same as MoveL. except other side
     {
         prevPos = position;
-        if (!WCol(1))
+        if (!WallCol(1))
             position.X++;
     }
 
-    public void Fall()
+    //Movement downwards
+    public void Fall()//Moves down one
     {
         prevPos = position;
-        if (BCol() == false)
+        if (BottomCol() == false)//don't if reached bottom
             position.Y++;
     }
 
-    public void Drop()
+    public void Drop()//Keeps moving down
     {
-        if (dropping)
+        if (dropping)//While dropping true, falls
             Fall();
     }
+    #endregion
 
     public void Update(GameTime gameTime)
     {
-        if (gameTime.TotalGameTime.Ticks % (60 / speedMod) == 1 && BCol() == false)
+        if (gameTime.TotalGameTime.Ticks % (60 / speedMod) == 1 && BottomCol() == false)//speed of automatic falling
         {
             prevPos = position;
             position.Y++;
         }
 
-        Drop();
+        Drop();//keeps drop working
     }
 }

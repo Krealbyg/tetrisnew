@@ -13,7 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin ass without the G.png
+#begin ass_without_the_G.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,7 +23,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ass without the G.png
+/build:ass_without_the_G.png
 
 #begin block.png
 /importer:TextureImporter
@@ -42,12 +42,6 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:boomfinal.wav
-
-#begin Grass.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Grass.wav
 
 #begin GrassFinal.wav
 /importer:WavImporter
