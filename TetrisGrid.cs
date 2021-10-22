@@ -172,10 +172,12 @@ class TetrisGrid
             RotationCol();
         }
         //other movement
-        if (inputHelper.KeyPressed(Keys.Left) && canMove != 1)
-             currentBlock.MoveL();
-        if (inputHelper.KeyPressed(Keys.Right) && canMove != 2)
-             currentBlock.MoveR();
+        if (inputHelper.KeyPressed(Keys.Left))
+            currentBlock.MoveL();
+            MoveCol();
+        if (inputHelper.KeyPressed(Keys.Right))
+            currentBlock.MoveR();
+            MoveCol();
         if (inputHelper.KeyPressed(Keys.Down))
             currentBlock.Fall();
         if (inputHelper.KeyPressed(Keys.Space))
@@ -193,10 +195,6 @@ class TetrisGrid
                 if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x, (int)currentBlock.position.Y + y] == true)//checks if blocks intersect
                     if (currentBlock.position == currentBlock.prevPos)//if block intersects when spawning, game over
                         gameOver = true;
-                if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x - 1, (int)currentBlock.position.Y + y] == true)
-                    canMove = 1;
-                else if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x + 1, (int)currentBlock.position.Y + y] == true)
-                    canMove = 2;
                 if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x, (int)currentBlock.position.Y + y + 1] == true)//if block on top of other block
                 {
                     currentBlock.dropping = false;
@@ -215,6 +213,18 @@ class TetrisGrid
             {
                 if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x, (int)currentBlock.position.Y + y] == true)//if intersects, rotate back
                     currentBlock.bGrid = currentBlock.prevGrid;
+            }
+        }
+    }
+
+    public void MoveCol()//checks if blocks intersect on movement
+    { 
+        for (int x = 0; x < currentBlock.bGrid.GetLength(0); x++)
+        {
+            for (int y = 0; y < currentBlock.bGrid.GetLength(1); y++)
+            {
+                if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x, (int)currentBlock.position.Y + y] == true)//checks if blocks intersect
+                    currentBlock.position = currentBlock.prevPos;//puts block back to its previous position
             }
         }
     }
