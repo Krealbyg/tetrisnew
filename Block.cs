@@ -21,7 +21,7 @@ abstract class Block
     
     public Block()
     {
-        cell = TetrisGame.ContentManager.Load<Texture2D>("block");
+        cell = TetrisGame.ContentManager.Load<Texture2D>("ass without the G");
         prevPos = position;
   
     }
