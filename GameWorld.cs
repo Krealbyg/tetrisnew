@@ -43,6 +43,7 @@ class GameWorld
 
     //background image
     public Texture2D backgrnd;
+    public Texture2D gameovr;
 
     //music stuff
     public Song theme;
@@ -53,6 +54,7 @@ class GameWorld
         gameState = GameState.Begin;
 
         backgrnd = TetrisGame.ContentManager.Load<Texture2D>("bgrnd");
+        gameovr = TetrisGame.ContentManager.Load<Texture2D>("gmover");
         
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
         theme = TetrisGame.ContentManager.Load<Song>("theme");
@@ -94,14 +96,15 @@ class GameWorld
           if (songplaying == false)//makes it so song doesn't keep starting over and over while in GameState.Begin
             {
                 MediaPlayer.Play(theme);
-                MediaPlayer.Volume = 0.25f;
+                MediaPlayer.Volume = 0.125f;
+                MediaPlayer.IsRepeating = true;
                 songplaying = true;
             }
             spriteBatch.Draw(backgrnd, Vector2.Zero, Color.White);
 
         }
         if (gameState == GameState.GameOver)
-            spriteBatch.DrawString(font, "Game Over. Press enter to restart", new Vector2(200, 200), Color.Black);
+            spriteBatch.Draw(gameovr, Vector2.Zero, Color.White);
         spriteBatch.End();
     }
 
