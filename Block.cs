@@ -12,7 +12,7 @@ abstract class Block
     
     //Properties of the blocks
     public Color color;
-    public Vector2 position = new Vector2(2, 0);
+    public Vector2 position = new Vector2(3, 0);
     public Vector2 prevPos;
     protected Texture2D cell;
 

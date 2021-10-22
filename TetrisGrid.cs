@@ -33,7 +33,7 @@ class TetrisGrid
     public bool gameOver;
     public Random r = new Random();
     public int score;
-    int canMove;
+    
 
     //sprites and sounds
     SpriteFont font;
@@ -98,9 +98,9 @@ class TetrisGrid
         currentBlock.Draw(gameTime, spriteBatch);
 
         //draws misc strings
-        spriteBatch.DrawString(font, "Score:" + score, new Vector2(330, 6), Color.Black);
-        spriteBatch.DrawString(font, "Level:" + level, new Vector2(330, 36), Color.Black);
-        spriteBatch.DrawString(font, "Next Block:", new Vector2(330, 118), Color.Black);
+        spriteBatch.DrawString(font, "Score:" + score, new Vector2(330, 6), Color.White);
+        spriteBatch.DrawString(font, "Level:" + level, new Vector2(330, 36), Color.White);
+        spriteBatch.DrawString(font, "Next Block:", new Vector2(330, 118), Color.White);
     }
 
     /// <summary>
@@ -146,7 +146,7 @@ class TetrisGrid
         BlockCol();
 
         //level up. required score increased with level
-        if (score == 1500 * level)
+        if (score >= 1500 * level)
         {
             levelup.Play(volume: 0.2f, pitch: 0.0f, pan: 0.0f);
             level++;
