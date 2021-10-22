@@ -8,11 +8,11 @@ class Square : Block
     public Square()
     {
         color = Color.Yellow;
-        bGrid = new bool[2, 2];
-        bGrid[0, 0] = true;
-        bGrid[0, 1] = true;
+        bGrid = new bool[4, 4];
         bGrid[1, 1] = true;
-        bGrid[1, 0] = true;
+        bGrid[1, 2] = true;
+        bGrid[2, 2] = true;
+        bGrid[2, 1] = true;
     }
 }
 
