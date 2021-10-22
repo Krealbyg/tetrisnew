@@ -47,7 +47,7 @@ class TetrisGrid
     public TetrisGrid()
     {
         //loads sounds and textures
-        emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
+        emptyCell = TetrisGame.ContentManager.Load<Texture2D>("wool");
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
         place = TetrisGame.ContentManager.Load<SoundEffect>("GrassFinal");
         levelup = TetrisGame.ContentManager.Load<SoundEffect>("level");

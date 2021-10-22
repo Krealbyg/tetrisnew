@@ -22,7 +22,7 @@ abstract class Block
     
     public Block()
     {
-        cell = TetrisGame.ContentManager.Load<Texture2D>("ass_without_the_G");
+        cell = TetrisGame.ContentManager.Load<Texture2D>("Wool");
         prevPos = position;
     }
 

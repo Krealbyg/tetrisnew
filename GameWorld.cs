@@ -41,6 +41,9 @@ class GameWorld
     /// </summary>
     TetrisGrid grid;
 
+    //background image
+    public Texture2D backgrnd;
+
     //music stuff
     public Song theme;
     public bool songplaying;
@@ -49,6 +52,7 @@ class GameWorld
         random = new Random();
         gameState = GameState.Begin;
 
+        backgrnd = TetrisGame.ContentManager.Load<Texture2D>("bgrnd");
         
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
         theme = TetrisGame.ContentManager.Load<Song>("theme");
@@ -93,7 +97,8 @@ class GameWorld
                 MediaPlayer.Volume = 0.25f;
                 songplaying = true;
             }
-            spriteBatch.DrawString(font, "Press enter to begin", new Vector2(200, 200), Color.Black);
+            spriteBatch.Draw(backgrnd, Vector2.Zero, Color.White);
+
         }
         if (gameState == GameState.GameOver)
             spriteBatch.DrawString(font, "Game Over. Press enter to restart", new Vector2(200, 200), Color.Black);
