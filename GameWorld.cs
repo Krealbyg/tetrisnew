@@ -49,7 +49,6 @@ class GameWorld
         random = new Random();
         gameState = GameState.Begin;
 
-        
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
         theme = TetrisGame.ContentManager.Load<Song>("theme");
 

@@ -33,6 +33,7 @@ class TetrisGrid
     public bool gameOver;
     public Random r = new Random();
     public int score;
+    int canMove;
 
     //sprites and sounds
     SpriteFont font;
@@ -107,15 +108,13 @@ class TetrisGrid
     /// </summary>
     public void Clear()
     {
-       
         for (int i = 0; i < Width; i++)
         {
             for (int j = 0; j < Height; j++)
             {
                 grid[i, j] = Color.White;
             }
-        }
-        
+        } 
     }
 
     //saves position of currentBlock into the grid
@@ -173,9 +172,9 @@ class TetrisGrid
             RotationCol();
         }
         //other movement
-        if (inputHelper.KeyPressed(Keys.Left))
+        if (inputHelper.KeyPressed(Keys.Left) && canMove != 1)
              currentBlock.MoveL();
-        if (inputHelper.KeyPressed(Keys.Right))
+        if (inputHelper.KeyPressed(Keys.Right) && canMove != 2)
              currentBlock.MoveR();
         if (inputHelper.KeyPressed(Keys.Down))
             currentBlock.Fall();
@@ -194,8 +193,10 @@ class TetrisGrid
                 if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x, (int)currentBlock.position.Y + y] == true)//checks if blocks intersect
                     if (currentBlock.position == currentBlock.prevPos)//if block intersects when spawning, game over
                         gameOver = true;
-                    else//revert to previous position
-                        currentBlock.position = currentBlock.prevPos;
+                if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x - 1, (int)currentBlock.position.Y + y] == true)
+                    canMove = 1;
+                else if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x + 1, (int)currentBlock.position.Y + y] == true)
+                    canMove = 2;
                 if (currentBlock.bGrid[x, y] && big[(int)currentBlock.position.X + x, (int)currentBlock.position.Y + y + 1] == true)//if block on top of other block
                 {
                     currentBlock.dropping = false;
