@@ -35,7 +35,7 @@ class TetrisGrid
     public int score;
     
 
-    //sprites and sounds
+    //font and sounds
     SpriteFont font;
     SoundEffect boom;
     SoundEffect levelup;
@@ -84,7 +84,7 @@ class TetrisGrid
             }
         }
 
-        //drawing preview block
+        //drawing the preview block
         for (int x = 0; x < previewBlock.bGrid.GetLength(0); x++)
         {
             for (int y = 0; y < previewBlock.bGrid.GetLength(1); y++)
@@ -94,10 +94,10 @@ class TetrisGrid
             }
         }
 
-        //draws current block
+        //draws current block ( active block)
         currentBlock.Draw(gameTime, spriteBatch);
 
-        //draws misc strings
+        //draws misc strings (Text on screen)
         spriteBatch.DrawString(font, "Score:" + score, new Vector2(330, 6), Color.White);
         spriteBatch.DrawString(font, "Level:" + level, new Vector2(330, 36), Color.White);
         spriteBatch.DrawString(font, "Next Block:", new Vector2(330, 118), Color.White);
@@ -117,14 +117,14 @@ class TetrisGrid
         } 
     }
 
-    //saves position of currentBlock into the grid
+    //saves position of falling currentblock into the grid whenever it touches the groud or another already saved block.
     public void Save()
     {
         place.Play(volume: 0.5f, pitch: 0.0f, pan: 1.0f);
         
         int x = (int)currentBlock.position.X, y = (int)currentBlock.position.Y;
 
-        //makes values in grid true depending on position of block when saved
+        //makes values of current positions in the grid true depending on position of block when saved
         for (int i = 0; i < currentBlock.bGrid.GetLength(0); i++)
         {
             for (int j = 0; j < currentBlock.bGrid.GetLength(1); j++)
@@ -145,7 +145,7 @@ class TetrisGrid
             Save();
         BlockCol();
 
-        //level up. required score increased with level
+        //levels up based on an amount of score times the current level to increase points needed.
         if (score >= 1500 * level)
         {
             levelup.Play(volume: 0.2f, pitch: 0.0f, pan: 0.0f);
@@ -158,7 +158,7 @@ class TetrisGrid
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
-        //rotations
+        //Left and Right rotation of the currentblock
         if (inputHelper.KeyPressed(Keys.D))
         {
             currentBlock.PrevRot(currentBlock.bGrid);
@@ -171,7 +171,7 @@ class TetrisGrid
             currentBlock.bGrid = currentBlock.RotateL(currentBlock.bGrid);
             RotationCol();
         }
-        //other movement
+        //other movement (Moving the currentblock left, right and down.
         if (inputHelper.KeyPressed(Keys.Left))
             currentBlock.MoveL();
             MoveCol();
@@ -275,7 +275,7 @@ class TetrisGrid
         
     }
 
-    public void ScoreIncrease(int x)//increases score
+    public void ScoreIncrease(int x)//increases score based on how many rows are cleared at once.
     {
         switch(x)
         {
@@ -295,7 +295,7 @@ class TetrisGrid
     }
     #endregion
 
-    public void NewBlock()//this selects the next block randomly
+    public void NewBlock()//this selects the next preview block randomly
     {
         currentBlock = previewBlock;
         int rBlock = r.Next(0, 7);
